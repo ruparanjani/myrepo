@@ -6,12 +6,13 @@
 #include "cpfapi.h"
 
 int iUid=1000;
-int count=0;
+//int count=0;
 int uim_reg_usr( char *cBuffer ){
 	FILE *fp;
-	bool flag1 = true,flag2 = true;
+	bool flag1 = false ,flag2 = false;
 	int i = 0,j = 0;
-	char cName[100],cMailid[100],cfBuffer[256],*str;	
+	char cName[100],cMailid[100],cfBuffer[256],*str,*str1;
+	str1=(char*)malloc(5*sizeof(char));	
 	if(strlen(cBuffer)!=0){
 	while(cBuffer[i] != ',')
 		cName[i++] = cBuffer[i];
@@ -20,7 +21,7 @@ int uim_reg_usr( char *cBuffer ){
 	while(cBuffer[i] != '\0')
 		cMailid[j++] = cBuffer[i++];
 	cMailid[j]='\0';
-	if(strlen(cName)!=0){
+	/*if(strlen(cName)!=0){
 		for(i=0;cName[i]!='\0';i++){
 			if(isalpha(cName[i]) || (cName[i]==' ' && i!=0)){
 				continue;
@@ -82,17 +83,23 @@ int uim_reg_usr( char *cBuffer ){
 	
 	if(flag1 && flag2){
 		flag2=false;
-		fp = fopen("uid_table.csv","r+");
-		while(EOF != fscanf(fp, "%[^\n]\n", cfBuffer)){
+	*/		
+	fp = fopen("uid_table.csv","r+");
+		while(fgets(cfBuffer,100,fp)){
+			printf("cfbuffer=>%s",cfBuffer);
 			if (strstr(cfBuffer,cMailid)){
 				flag2=true;
+				printf("falg2=>%d",flag2);
 				str = strtok(cfBuffer, ",");
-		        	printf("Data from the file: %s\n",str);
+				for(i=0;i<=3;i++)
+					str1[i]=str[i];
+				str1[i]='\0';		
+				printf("Data from the file: %s\n",str1);
 				break;
 			}
 		}
 		fclose(fp);
-		if(!flag2){
+		if(flag2 == false){
 			fp = fopen("uid_table.csv","a+");
 			if (fp == NULL){
 				printf("Can't open a file");
@@ -102,8 +109,9 @@ int uim_reg_usr( char *cBuffer ){
 			fclose(fp);
 			return iUid;
 		}
-		return str-'0';
+		return -1;
 	}
+ 	/*	
 	else if(!flag1 && !flag2)
 		printf("\nInvalid name and mailid\n");
 	else if(!flag1)
@@ -113,7 +121,7 @@ int uim_reg_usr( char *cBuffer ){
 	}
 	else{
 		printf("Invalid name and mailid\n");
-	}
+	}*/
 
 }
 

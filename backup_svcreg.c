@@ -5,14 +5,22 @@
 #include<stdbool.h>
 #include "cpfapi.h"
 #define MAX 100
-int iSid=2000;
+struct Svc_mgr{
+	char *svc_mgr[3];
+	int iSid;
+};
+int iSid=2000 ,j=0;
 bool validate(char *);
 int svc_reg( char *cBuffer , int iUid ){
-	bool check=false;
+	bool checj=false;
 	FILE *fp;
-	int i = 0,j = 0,k = 0, l=0;
+	struct Svc_mgr svc[100];
+	int i = 0,l=0;
 	int count = 0;
-	char *svc_mgr[3],*str;	
+	char *str;
+	iSid++;
+	svc[j++].iSid=iSid;
+	
 	if(strlen(cBuffer) && cBuffer!=NULL && cBuffer[0]!=" "){
 		do
 		{	
@@ -26,8 +34,8 @@ int svc_reg( char *cBuffer , int iUid ){
 				if(isalpha(str[i]) ||  (str[i]==' ' && i!=0 && ++count && count <= 1))
 					continue;
 				}
-				svc_mgr[i]=(char*)malloc(150*sizeof(char));
-				strcpy(svc_mgr[i],str);
+				svc[j].svc_mgr[i]=(char*)malloc(150*sizeof(char));
+				strcpy(svc[j].svc_mgr[i],str);
 				//printf("svc_mgr[%d] = %s\n",i,svc_mgr[i]);
 				i++;
 			}
@@ -35,20 +43,21 @@ int svc_reg( char *cBuffer , int iUid ){
 				break;
 		}while(str != NULL && i <= 2 );
 		
-		svc_mgr[2][strlen(svc_mgr[2])-1]='\0';
+		svc[j].svc_mgr[2][strlen(svc[j].svc_mgr[2])-1]='\0';
 		fp = fopen("service_reg_table.csv","a+");
 		if (fp == NULL){
 			printf("Can't open a file");
 			exit(0);
 		}
-		fprintf(fp,"%d,%s,%s,%s,%d\n",iUid,svc_mgr[0],svc_mgr[1],svc_mgr[2],++iSid);
+		fprintf(fp,"%d,%s,%s,%s,%d\n",iUid,svc[j].svc_mgr[0],svc[j].svc_mgr[1],svc[j].svc_mgr[2],svc[j].iSid);
 		fclose(fp);
 		for(i=0;i<=2;i++){
-			free(svc_mgr[i]);
-			svc_mgr[i]=NULL;
+			free(svc[j].svc_mgr[i]);
+			svc[j].svc_mgr[i]=NULL;
 		}
 		memset(&cBuffer,0,sizeof(cBuffer));
-		return iSid;
+		return svc[j].iSid;
+		//j++;
 	}
 }
 /*bool validate(char *str)
@@ -59,8 +68,8 @@ int svc_reg( char *cBuffer , int iUid ){
 		cSvc_name[i]='\0';
 		i++;
                 while(cBuffer[i] != ',')
-			cSvc_type[k++] = cBuffer[i++];
-		cSvc_name[k]='\0';
+			cSvc_type[j++] = cBuffer[i++];
+		cSvc_name[j]='\0';
 		i++;
 		while(cBuffer[i] != '\0')
 			cSvc_status[j++] = cBuffer[i++];
@@ -88,8 +97,8 @@ int svc_reg( char *cBuffer , int iUid ){
 		cSvc_name[i]='\0';
 		i++;
                 while(cBuffer[i] != ',')
-			cSvc_type[k++] = cBuffer[i++];
-		cSvc_name[k]='\0';
+			cSvc_type[j++] = cBuffer[i++];
+		cSvc_name[j]='\0';
 		i++;
 		while(cBuffer[i] != '\0')
 			cSvc_status[j++] = cBuffer[i++];
