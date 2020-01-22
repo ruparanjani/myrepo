@@ -56,13 +56,13 @@ int Command_Interpreter( char *cInput_Buffer )
 	if(strcmp(cCommand,"REG_USR")==0){
 		return uim_reg_usr(cInput_Fields);
 	}
-	/*
+	
 	 if(strcmp(cCommand,"REG_SVC")==0){	
                  sid=svc_reg(cInput_Fields,iUid);
 		 return sid;
-		 //printf("service id :%d",sid);
+		 printf("service id :%d",sid);
 	}	 		
-
+  /*
 	if(strcmp(cCommand,"GET_SVC_LIST")==0)
 		svcmgr_get_svc_list(cInput_Fields);
 

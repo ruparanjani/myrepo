@@ -5,7 +5,7 @@
 #include<stdbool.h>
 #include "cpfapi.h"
 #define MAX 100
-extern int iSid;
+int iSid=2000;
 bool validate(char *);
 int svc_reg( char *cBuffer , int iUid ){
 	bool check=false;
@@ -26,7 +26,7 @@ int svc_reg( char *cBuffer , int iUid ){
 				if(isalpha(str[i]) ||  (str[i]==' ' && i!=0 && ++count && count <= 1))
 					continue;
 				}
-				svc_mgr[i]=(char*)malloc(50*sizeof(char));
+				svc_mgr[i]=(char*)malloc(150*sizeof(char));
 				strcpy(svc_mgr[i],str);
 				//printf("svc_mgr[%d] = %s\n",i,svc_mgr[i]);
 				i++;
