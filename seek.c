@@ -1,11 +1,11 @@
 #include <stdio.h> 
 #include <string.h> 
 #include<stdlib.h>
-
+#include "cpfapi.h"
 int uid_retrive() 
 { 
 	char buff[1024],*str;
-     	int count=0,last=0,i=0;
+     	int count=0,last=0,i=0,regid=0;
      	FILE *fp = fopen("uid_table.csv","r");
      	char* token;
      	while(fgets(buff,1024,(FILE*)fp)){
@@ -20,11 +20,15 @@ int uid_retrive()
 	     	printf("%s",buff);
 	     	if(count==last){
 			token=strtok(buff,",");
-			for(;i<=3;i++)
-				str[i]=token[i];
-			str[i]='\0';
-			break;	
+			regid=atoi(token);
+			printf("token : %s ,regid :%d",token ,regid);
 	     	}
 	}
-	return(atoi(str));
+	return regid;
 }
+/*void main()
+{
+int i;
+i=uid_retrive();
+printf("\ni=>%d",i);
+}*/

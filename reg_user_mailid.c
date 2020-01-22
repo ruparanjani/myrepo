@@ -6,11 +6,42 @@
 #include "cpfapi.h"
 
 int iUid=1000;
-//int count=0;
+/*int count=0;
+int regid;
+int uid_retrive() 
+{ 
+	char buff[1024],*str;
+     	int count=0,last=0,i=0;
+     	FILE *fp = fopen("uid_table.csv","r");
+     	char* token;
+     	while(fgets(buff,1024,(FILE*)fp)){
+		count++;
+	}
+     	fclose(fp);
+     	last=--count;
+     	fp = fopen("uid_table.csv","r");
+	count=0;
+     	while(fgets(buff,1024,(FILE*)fp)){
+		count++;
+	     	printf("%s",buff);
+	     	if(count==last){
+			token=strtok(buff,",");
+			regid=atoi(token);
+			printf("token : %s ,regid :%d",token ,regid);
+			/*for(;i<=3;i++)
+				str[i]=token[i];
+			str[i]='\0';
+			break;	
+	     	}
+		//break;
+	}
+	printf("reg :%d",regid);
+	return regid;
+}*/
 int uim_reg_usr( char *cBuffer ){
 	FILE *fp;
 	bool flag1 = false ,flag2 = false;
-	int i = 0,j = 0;
+	int i = 0,j = 0,rv=0;
 	char cName[100],cMailid[100],cfBuffer[256],*str,*str1;
 	str1=(char*)malloc(5*sizeof(char));	
 	if(strlen(cBuffer)!=0){
@@ -83,18 +114,13 @@ int uim_reg_usr( char *cBuffer ){
 	
 	if(flag1 && flag2){
 		flag2=false;
-	*/		
+	*/	
+	rv=uid_retrive();	
+	printf("uid from table %d",rv);
 	fp = fopen("uid_table.csv","r+");
 		while(fgets(cfBuffer,100,fp)){
-			printf("cfbuffer=>%s",cfBuffer);
 			if (strstr(cfBuffer,cMailid)){
 				flag2=true;
-				printf("falg2=>%d",flag2);
-				str = strtok(cfBuffer, ",");
-				for(i=0;i<=3;i++)
-					str1[i]=str[i];
-				str1[i]='\0';		
-				printf("Data from the file: %s\n",str1);
 				break;
 			}
 		}
@@ -105,11 +131,12 @@ int uim_reg_usr( char *cBuffer ){
 				printf("Can't open a file");
 				exit(0);
 			}
-			fprintf(fp,"%d %s %s\n",++iUid,cName,cMailid);
+			fprintf(fp,"%d,%s,%s\n",++iUid,cName,cMailid);
 			fclose(fp);
 			return iUid;
 		}
-		return -1;
+		return 10;
+	}
 	}
  	/*	
 	else if(!flag1 && !flag2)
@@ -123,7 +150,6 @@ int uim_reg_usr( char *cBuffer ){
 		printf("Invalid name and mailid\n");
 	}*/
 
-}
 
 /*void main()
 {
@@ -134,4 +160,10 @@ int uim_reg_usr( char *cBuffer ){
 		gets(str);
 		uim_reg_usr(str); 
 	}while(1);
-}*/
+/*printf("falg2=>%d",flag2);
+				str = strtok(cfBuffer, ",");
+				for(i=0;i<=3;i++)
+					str1[i]=str[i];
+				str1[i]='\0';		
+				printf("Data from the file: %s\n",str1);*/
+

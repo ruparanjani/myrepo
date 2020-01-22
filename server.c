@@ -5,7 +5,7 @@
 #include<sys/socket.h>
 #include<string.h>
 #include "cpfapi.h"
-#define PORT 2027
+#define PORT 2028
 #define MAX 255
 
 void *client_thread ( void *arg )               //thread function
@@ -20,15 +20,18 @@ void *client_thread ( void *arg )               //thread function
 
         while(1){
 		memset(&buffer,0,sizeof(buffer));
-		read(newsock_fd, buffer, sizeof(buffer));
-                i=strlen(buffer);
-		buffer[i]='\0';
-		buffer1=User_Validation(buffer); 
-		write(newsock_fd, buffer1, sizeof(buffer1));
-
-
-        }
-        close(newsock_fd);
+		msg_len=read(newsock_fd, buffer, sizeof(buffer));
+		if(msg_len==0){
+			break;
+		}
+		else{
+			i=strlen(buffer);
+			buffer[i]='\0';
+			buffer1=User_Validation(buffer); 
+	        	write(newsock_fd, buffer1, sizeof(buffer1));
+		}
+	}
+	close(newsock_fd);
 }
 
 int server()

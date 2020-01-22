@@ -4,7 +4,7 @@
 #include<sys/types.h>
 #include<sys/socket.h>
 #include<string.h>
-#define PORT 2027
+#define PORT 2028
 #define server_ip "127.0.0.1"
 #define max 100
 
@@ -25,13 +25,18 @@ int client()
 	servaddr.sin_port=htons(PORT);
 	connect(sock_fd,(struct sockaddr*)&servaddr,sizeof(servaddr));
 	while(1){
-		msg_len=recv(sock_fd,buffer,max,0);
+		msg_len=recv(sock_fd,buffer,max,0);	
                 printf("%s\n",buffer);
+		//id_validation(buffer);
 		memset(&buffer,0,sizeof(buffer));
 		fgets(buffer,max,stdin);
+		if(buffer[0]=='!'){
+			break;
+		}
+		else{
 		send(sock_fd,buffer,max,0);
-
 		memset(&buffer,0,sizeof(buffer));
+		}
 //		msg_len=recv(sock_fd,buffer1,max,0);
   //		printf("%s",buffer1);
 		//              printf("%d\n",buff);
