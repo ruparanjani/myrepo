@@ -115,8 +115,8 @@ int uim_reg_usr( char *cBuffer ){
 	if(flag1 && flag2){
 		flag2=false;
 	*/	
-	rv=uid_retrive();	
-	printf("uid from table %d",rv);
+	iUid=uid_retrive();	
+	printf("\nuid from table %d",rv);
 	fp = fopen("uid_table.csv","r+");
 		while(fgets(cfBuffer,100,fp)){
 			if (strstr(cfBuffer,cMailid)){

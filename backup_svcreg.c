@@ -9,18 +9,20 @@ struct Svc_mgr{
 	char *svc_mgr[3];
 	int iSid;
 };
-int iSid=2000 ,j=0;
-bool validate(char *);
-int svc_reg( char *cBuffer , int iUid ){
-	bool checj=false;
+int iSid=3000,j=-1;
+int svc_reg( char *cBuffer){
+	bool check=false;
 	FILE *fp;
 	struct Svc_mgr svc[100];
 	int i = 0,l=0;
-	int count = 0;
+	int count = 0,rv=0;
 	char *str;
-	iSid++;
-	svc[j++].iSid=iSid;
-	
+	printf("before sid_retrive");
+	iSid=sid_retrive();
+	//++iSid;
+	//printf("rv => %d",rv);
+	svc[++j].iSid=iSid;
+	//pintf("svc[++j].iSid =>%d",svc[++j].iSid);
 	if(strlen(cBuffer) && cBuffer!=NULL && cBuffer[0]!=" "){
 		do
 		{	
@@ -30,33 +32,29 @@ int svc_reg( char *cBuffer , int iUid ){
 				str = strtok(NULL, ",");
 			if(strlen(str)!=0){
 				int count = 0;
-			for(int i=0;str[i]!='\0';i++){
-				if(isalpha(str[i]) ||  (str[i]==' ' && i!=0 && ++count && count <= 1))
-					continue;
-				}
-				svc[j].svc_mgr[i]=(char*)malloc(150*sizeof(char));
+				svc[j].svc_mgr[i]=(struct Svc_mgr*)malloc(1*sizeof(struct Svc_mgr));
 				strcpy(svc[j].svc_mgr[i],str);
-				//printf("svc_mgr[%d] = %s\n",i,svc_mgr[i]);
 				i++;
 			}
 			else
 				break;
-		}while(str != NULL && i <= 2 );
+		}while(str != NULL && i <= 3 );
 		
-		svc[j].svc_mgr[2][strlen(svc[j].svc_mgr[2])-1]='\0';
+		svc[j].svc_mgr[3][strlen(svc[j].svc_mgr[3])-1]='\0';
 		fp = fopen("service_reg_table.csv","a+");
 		if (fp == NULL){
 			printf("Can't open a file");
 			exit(0);
 		}
-		fprintf(fp,"%d,%s,%s,%s,%d\n",iUid,svc[j].svc_mgr[0],svc[j].svc_mgr[1],svc[j].svc_mgr[2],svc[j].iSid);
+		//iSid=sid_retrive();
+		fprintf(fp,"%d,%s,%s,%s,%s\n",++iSid,svc[j].svc_mgr[0],svc[j].svc_mgr[1],svc[j].svc_mgr[2],svc[j].svc_mgr[3]);
 		fclose(fp);
-		for(i=0;i<=2;i++){
+		for(i=0;i<=3;i++){
 			free(svc[j].svc_mgr[i]);
 			svc[j].svc_mgr[i]=NULL;
 		}
 		memset(&cBuffer,0,sizeof(cBuffer));
-		return svc[j].iSid;
+		return iSid;
 		//j++;
 	}
 }

@@ -33,8 +33,8 @@ char* User_Validation(char *cInput_Buffer)
 int Command_Interpreter( char *cInput_Buffer )
 {
 	char cCommand[100],cInput_Fields[150];
-	int iOpt=0,iLength=0,i=0,iCommand_Length=0,j=0,sid;
-	int iUid=1000;
+	int iOpt=0,iLength=0,i=0,iCommand_Length=0,j=0,sid=0;
+	int iUid=0;
 	iLength=strlen(cInput_Buffer);
 
 	while(cInput_Buffer[iCommand_Length]!=':')
@@ -54,13 +54,15 @@ int Command_Interpreter( char *cInput_Buffer )
 	cInput_Buffer[++j]='\0';
 
 	if(strcmp(cCommand,"REG_USR")==0){
-		return uim_reg_usr(cInput_Fields);
+		iUid=uim_reg_usr(cInput_Fields);
+		return iUid;
 	}
 	
-	 if(strcmp(cCommand,"REG_SVC")==0){	
-                 sid=svc_reg(cInput_Fields,iUid);
-		 return sid;
-		 printf("service id :%d",sid);
+	 else if(strcmp(cCommand,"REG_SVC")==0){
+                sid=svc_reg(cInput_Fields);
+		printf("\nservice id :%d",sid);
+		return sid;
+		 
 	}	 		
   /*
 	if(strcmp(cCommand,"GET_SVC_LIST")==0)
@@ -73,6 +75,6 @@ int Command_Interpreter( char *cInput_Buffer )
 	else if(strcmp(cCommand,"END_SESSION")==0)
 		end_session(cInput_Fields);*/
 //	return(cInput_Buffer);
-
-	return -1;
+	else
+		return -1;
 }

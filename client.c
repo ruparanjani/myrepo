@@ -4,7 +4,8 @@
 #include<sys/types.h>
 #include<sys/socket.h>
 #include<string.h>
-#define PORT 2028
+#include "cpfapi.h"
+#define PORT 2027
 #define server_ip "127.0.0.1"
 #define max 100
 
@@ -24,9 +25,11 @@ int client()
 	servaddr.sin_addr.s_addr=inet_addr(server_ip);
 	servaddr.sin_port=htons(PORT);
 	connect(sock_fd,(struct sockaddr*)&servaddr,sizeof(servaddr));
+	msg_len=recv(sock_fd,buffer,max,0);	
+        printf("%s\n",buffer);
 	while(1){
-		msg_len=recv(sock_fd,buffer,max,0);	
-                printf("%s\n",buffer);
+		//msg_len=recv(sock_fd,buffer,max,0);	
+                //printf("%s\n",buffer);
 		//id_validation(buffer);
 		memset(&buffer,0,sizeof(buffer));
 		fgets(buffer,max,stdin);
@@ -36,6 +39,9 @@ int client()
 		else{
 		send(sock_fd,buffer,max,0);
 		memset(&buffer,0,sizeof(buffer));
+		msg_len=recv(sock_fd,buffer,max,0);
+		id_validation(buffer);
+		//printf("%s\n",buffer);
 		}
 //		msg_len=recv(sock_fd,buffer1,max,0);
   //		printf("%s",buffer1);

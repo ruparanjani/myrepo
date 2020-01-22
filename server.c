@@ -5,7 +5,7 @@
 #include<sys/socket.h>
 #include<string.h>
 #include "cpfapi.h"
-#define PORT 2028
+#define PORT 2027
 #define MAX 255
 
 void *client_thread ( void *arg )               //thread function
