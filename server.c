@@ -19,6 +19,7 @@ void *client_thread ( void *arg )               //thread function
         memset(&buffer,0,sizeof(buffer));
 
         while(1){
+		memset(&buffer,0,sizeof(buffer));
 		read(newsock_fd, buffer, sizeof(buffer));
                 i=strlen(buffer);
 		buffer[i]='\0';
