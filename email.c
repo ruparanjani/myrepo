@@ -7,10 +7,8 @@
  
 int validation(char* str)
 {
-    char* str;
     int i=0,len=0;
     str=(char*)malloc(100*sizeof(char));
-    //gets(str);
     len=strlen(str);
     str[len]='\0';
     printf("\n len=%d",len);
@@ -25,7 +23,8 @@ int validation(char* str)
 		printf("\n no input");
 
 	else if (status == 0) {
-	       	printf("\n%s matching",str);
+	       	//printf("\n%s matching",str);
+		return 1;
      }
 	
     else{
@@ -33,7 +32,7 @@ int validation(char* str)
     }
     
 }    
-void validate_buffer(char cBuffer[100]){
+void validate_buffer(char* cBuffer){
 	bool flag1 = false;
 	char cName[100],cMailid[100],command[100];
 	int i=0,j=0;

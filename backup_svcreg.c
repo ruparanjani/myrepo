@@ -17,12 +17,9 @@ int svc_reg( char *cBuffer){
 	int i = 0,l=0;
 	int count = 0,rv=0;
 	char *str;
-	printf("before sid_retrive");
 	iSid=sid_retrive();
-	//++iSid;
-	//printf("rv => %d",rv);
-	svc[++j].iSid=iSid;
-	//pintf("svc[++j].iSid =>%d",svc[++j].iSid);
+	
+	svc[++j].iSid=++iSid;
 	if(strlen(cBuffer) && cBuffer!=NULL && cBuffer[0]!=" "){
 		do
 		{	
@@ -46,8 +43,8 @@ int svc_reg( char *cBuffer){
 			printf("Can't open a file");
 			exit(0);
 		}
-		//iSid=sid_retrive();
-		fprintf(fp,"%d,%s,%s,%s,%s\n",++iSid,svc[j].svc_mgr[0],svc[j].svc_mgr[1],svc[j].svc_mgr[2],svc[j].svc_mgr[3]);
+		
+		fprintf(fp,"%d,%s,%s,%s,%s\n",iSid,svc[j].svc_mgr[0],svc[j].svc_mgr[1],svc[j].svc_mgr[2],svc[j].svc_mgr[3]);
 		fclose(fp);
 		for(i=0;i<=3;i++){
 			free(svc[j].svc_mgr[i]);
@@ -55,7 +52,7 @@ int svc_reg( char *cBuffer){
 		}
 		memset(&cBuffer,0,sizeof(cBuffer));
 		return iSid;
-		//j++;
+		
 	}
 }
 /*bool validate(char *str)

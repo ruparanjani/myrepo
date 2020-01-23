@@ -2,33 +2,32 @@
 #include <string.h> 
 #include<stdlib.h>
 #include "cpfapi.h"
+
 int uid_retrive() 
 { 
-	char buff[1024],*str;
-     	int count=0,last=0,i=0,regid=0;
+	char buff[1024],*str,*token;
+     	int count=0,last=0,i=0,regid=1000;
      	FILE *fp = fopen("uid_table.csv","r");
-     	char* token;
+	if(fp==NULL){
+		printf("\nCan't open the file\n");
+	}
      	while(fgets(buff,1024,(FILE*)fp)){
 		count++;
 	}
      	fclose(fp);
      	last=--count;
      	fp = fopen("uid_table.csv","r");
+	if(fp==NULL){
+		printf("\nCan't open the file\n");
+	}
 	count=0;
      	while(fgets(buff,1024,(FILE*)fp)){
 		count++;
-	     	//printf("%s",buff);
 	     	if(count==last){
 			token=strtok(buff,",");
 			regid=atoi(token);
-			//printf("token : %s ,regid :%d",token ,regid);
-	     	}
+		}
 	}
 	return regid;
 }
-/*void main()
-{
-int i;
-i=uid_retrive();
-printf("\ni=>%d",i);
-}*/
+
